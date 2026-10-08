@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Owl-Byte Studios is a newly formed Canadian creative studio building games, stories, and worlds.">
+  <meta name="theme-color" content="#07111E">
+  <title>Owl-Byte Studios | Games • Stories • Worlds</title>
+
+  <style>
+    :root {
+      --night: #07111E;
+      --charcoal: #312F3C;
+      --yellow: #FED428;
+      --cyan: #20EFEF;
+      --pink: #FE279E;
+      --cream: #FFF6D5;
+      --white: #ffffff;
+      --muted: #b8b7c0;
+      --max-width: 1180px;
+      --radius: 18px;
+      --shadow: 0 18px 60px rgba(0, 0, 0, .28);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--night);
+    }
+
+    body {
+      margin: 0;
+      background: var(--night);
+      color: var(--cream);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max-width));
+      margin-inline: auto;
+    }
+
+    /* Pixel-inspired utility */
+    .pixel {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      pointer-events: none;
+      image-rendering: pixelated;
+    }
+
+    .pixel.yellow { background: var(--yellow); }
+    .pixel.cyan { background: var(--cyan); }
+    .pixel.pink { background: var(--pink); }
+    .pixel.cream { background: var(--cream); }
+
+    /* Floating byte particles: individual shapes, sizes and motion cycles. */
+    .pixel {
+      z-index: 0;
+      opacity: .88;
+      animation: byte-float var(--float-time, 7s) ease-in-out var(--float-delay, 0s) infinite alternate;
+      transform-origin: center;
+      will-change: transform;
+    }
+    .pixel.tiny { width: 7px; height: 7px; }
+    .pixel.small { width: 12px; height: 12px; }
+    .pixel.medium { width: 21px; height: 21px; }
+    .pixel.large { width: 34px; height: 34px; }
+    .pixel.wide { width: 31px; height: 9px; }
+    .pixel.tall { width: 10px; height: 29px; }
+    .pixel.diamond { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+    .pixel.plus {
+      clip-path: polygon(35% 0,65% 0,65% 35%,100% 35%,100% 65%,65% 65%,65% 100%,35% 100%,35% 65%,0 65%,0 35%,35% 35%);
+    }
+    .hero-grid, .future > .container { position: relative; z-index: 1; }
+
+    @keyframes byte-float {
+      0% { transform: translate3d(0, 9px, 0) rotate(-12deg); }
+      50% { transform: translate3d(9px, -8px, 0) rotate(24deg); }
+      100% { transform: translate3d(-5px, -24px, 0) rotate(68deg); }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--cyan);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 5px;
+      background: var(--pink);
+      display: inline-block;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: .95;
+      text-transform: uppercase;
+      letter-spacing: .025em;
+    }
+
+    h1 {
+      font-size: clamp(3.8rem, 10vw, 8.8rem);
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+    }
+
+    h3 {
+      font-size: 1.55rem;
+    }
+
+    p {
+      color: var(--muted);
+      max-width: 680px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      z-index: 100;
+      top: 0;
+      width: 100%;
+      background: rgba(7, 17, 30, .82);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 246, 213, .08);
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 1000;
+      letter-spacing: .06em;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      font-size: .82rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a {
+      transition: color .2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--yellow);
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100svh;
+      padding: 140px 0 70px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(32, 239, 239, .08), transparent 30%),
+        linear-gradient(135deg, var(--night) 0%, var(--charcoal) 100%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 150px;
+      background: linear-gradient(transparent, var(--night));
+      z-index: -1;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .hero-copy p {
+      font-size: 1.15rem;
+      margin: 28px 0 32px;
+    }
+
+    .hero-title .accent {
+      color: var(--yellow);
+    }
+
+    .hero-title .cyan {
+      color: var(--cyan);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 22px;
+      border: 2px solid transparent;
+      font-weight: 1000;
+      font-size: .78rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-3px);
+    }
+
+    .button.primary {
+      color: var(--night);
+      background: var(--yellow);
+      box-shadow: 7px 7px 0 var(--pink);
+    }
+
+    .button.secondary {
+      color: var(--cream);
+      border-color: var(--cyan);
+      background: transparent;
+    }
+
+    .hero-logo-wrap {
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-logo {
+      width: min(500px, 90vw);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      border: 3px solid rgba(255, 246, 213, .08);
+    }
+
+    .hero-logo-wrap::before {
+      content: "";
+      position: absolute;
+      width: 82%;
+      height: 82%;
+      background: var(--pink);
+      opacity: .12;
+      transform: rotate(8deg);
+      z-index: -1;
+    }
+
+    /* Intro */
+    .intro {
+      position: relative;
+      padding: 120px 0;
+      background: var(--night);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 70px;
+      align-items: start;
+    }
+
+    .intro h2 span { color: var(--cyan); }
+
+    .intro-copy {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+    }
+
+    /* Projects */
+    .projects {
+      padding: 110px 0;
+      background: var(--cream);
+      color: var(--night);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .projects p {
+      color: #e6e6e6;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: end;
+      margin-bottom: 45px;
+    }
+
+    .project-header .eyebrow {
+      color: var(--pink);
+    }
+
+    .project-header .eyebrow::before {
+      background: var(--cyan);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 22px;
+    }
+
+    .project-card {
+      min-height: 350px;
+      padding: 34px;
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      box-shadow: var(--shadow);
+    }
+
+    .project-card.featured {
+      min-height: 520px;
+      background:
+        linear-gradient(135deg, rgba(7,17,30,.05), rgba(7,17,30,.92)),
+        linear-gradient(135deg, var(--night), var(--cyan));
+      color: var(--cream);
+    }
+
+    .project-card.small {
+      background: var(--night);
+      color: var(--cream);
+    }
+
+    .project-card::before,
+    .project-card::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      opacity: .8;
+    }
+
+    .project-card::before {
+      right: -35px;
+      top: -35px;
+      background: var(--yellow);
+      transform: rotate(45deg);
+    }
+
+    .project-card::after {
+      left: -45px;
+      bottom: -45px;
+      background: var(--pink);
+      transform: rotate(45deg);
+    }
+
+    .project-card h3,
+    .project-card p,
+    .project-card .status {
+      position: relative;
+      z-index: 2;
+    }
+
+    .status {
+      display: inline-block;
+      width: fit-content;
+      margin-bottom: 14px;
+      padding: 5px 9px;
+      background: var(--yellow);
+      color: var(--night);
+      font-size: .68rem;
+      font-weight: 1000;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    /* Philosophy */
+    .philosophy {
+      padding: 130px 0;
+      background: var(--charcoal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .philosophy::before {
+      content: "BYTE";
+      position: absolute;
+      right: -40px;
+      top: 40px;
+      font-size: clamp(8rem, 24vw, 22rem);
+      font-weight: 1000;
+      color: rgba(255, 246, 213, .025);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .philosophy-inner {
+      max-width: 900px;
+      position: relative;
+    }
+
+    .philosophy blockquote {
+      margin: 25px 0 28px;
+      font-size: clamp(2rem, 5vw, 4.6rem);
+      line-height: 1;
+      font-weight: 1000;
+      text-transform: uppercase;
+    }
+
+    .philosophy blockquote span {
+      color: var(--pink);
+    }
+
+    /* New worlds */
+    .future {
+      padding: 130px 0;
+      background: var(--night);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .future h2 {
+      max-width: 900px;
+      margin: 20px auto;
+    }
+
+    .future h2 span { color: var(--yellow); }
+
+    .future p {
+      margin: 0 auto 32px;
+      font-size: 1.1rem;
+    }
+
+    .pixel-field {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .pixel-field .p1 { top: 15%; left: 8%; }
+    .pixel-field .p2 { top: 24%; right: 12%; }
+    .pixel-field .p3 { bottom: 20%; left: 17%; }
+    .pixel-field .p4 { bottom: 16%; right: 22%; }
+
+    /* Footer */
+    footer {
+      padding: 60px 0 30px;
+      background: #050c15;
+      border-top: 1px solid rgba(255, 246, 213, .08);
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: start;
+      padding-bottom: 45px;
+    }
+
+    .footer-brand {
+      font-size: 1.5rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+    }
+
+    .footer-brand span { color: var(--cyan); }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: .8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .footer-links a:hover { color: var(--pink); }
+
+    .copyright {
+      padding-top: 25px;
+      border-top: 1px solid rgba(255, 246, 213, .08);
+      color: #73737d;
+      font-size: .78rem;
+    }
+
+    @media (max-width: 820px) {
+      .nav-links { display: none; }
+
+      .hero-grid,
+      .intro-grid,
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero-logo-wrap {
+        order: -1;
+      }
+
+      .hero-logo {
+        width: min(390px, 86vw);
+      }
+
+      .project-card.featured {
+        min-height: 440px;
+      }
+
+      .project-header,
+      .footer-top {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Owl-Byte Studios home">
+        <img class="brand-mark" src="assets/Owl-Logo2027.png" alt="">
+        <span>OWL-BYTE STUDIOS</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#games">Games</a>
+        <a href="#about">About</a>
+        <a href="#journal">Journal</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <span class="pixel yellow large diamond" style="top:16%;left:7%;--float-time:7.8s;"></span>
+      <span class="pixel cyan medium" style="top:29%;right:9%;--float-time:6.1s;--float-delay:-2s;"></span>
+      <span class="pixel pink small" style="bottom:17%;left:12%;--float-time:8.4s;--float-delay:-3s;"></span>
+      <span class="pixel cream wide" style="bottom:23%;right:17%;--float-time:9s;--float-delay:-1s;"></span>
+      <span class="pixel pink plus large" style="top:12%;right:28%;--float-time:10s;--float-delay:-4s;"></span>
+      <span class="pixel cyan tiny" style="top:44%;left:4%;--float-time:5.7s;--float-delay:-2s;"></span>
+      <span class="pixel yellow tall" style="bottom:12%;right:6%;--float-time:8.8s;--float-delay:-5s;"></span>
+      <span class="pixel cream small diamond" style="bottom:9%;left:39%;--float-time:7.3s;--float-delay:-2s;"></span>
+
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">A new creative studio is taking flight</div>
+          <h1 class="hero-title">
+            <span>Explore.</span><br>
+            <span class="accent">Create.</span><br>
+            <span class="cyan">Play.</span>
+          </h1>
+
+          <p>
+            Owl-Byte Studios is a newly formed Canadian creative studio
+            building original games, stories, and worlds with creativity at the heart.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button primary" href="#games">Explore What's Coming</a>
+            <a class="button secondary" href="#about">Meet Owl-Byte</a>
+          </div>
+        </div>
+
+        <div class="hero-logo-wrap">
+          <img
+            class="hero-logo"
+            src="assets/2027_Owl-Byte_Logo.jpg"
+            alt="Owl-Byte Studios logo"
+          >
+        </div>
+      </div>
+    </section>
+
+    <section class="intro" id="about">
+      <div class="container intro-grid">
+        <div>
+          <div class="eyebrow">Welcome to Owl-Byte</div>
+          <h2>New worlds are <span>on the horizon.</span></h2>
+        </div>
+
+        <div class="intro-copy">
+          <p>
+            We’re just getting started. Owl-Byte Studios was created to give
+            original ideas room to grow, from small experiments and prototypes
+            to the games and stories we hope people will remember.
+          </p>
+          <p>
+            We believe the best creative work comes from curiosity, personality,
+            experimentation, and a genuine love for making things.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects" id="games">
+      <div class="container">
+        <div class="project-header">
+          <div>
+            <div class="eyebrow">In the workshop</div>
+            <h2>What we're<br>building.</h2>
+          </div>
+          <p>
+            Our first projects are already taking shape. This is only the
+            beginning of the Owl-Byte journey.
+          </p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card featured">
+            <img
+              src="assets/Projet SongString Logo.png"
+            >
+            <span class="status">In Development</span>
+            <h3>Project Songstring</h3>
+            <p>
+              A colorful musical adventure built around exploration, characters,
+              catchy tunes, and a world where music matters.
+            </p>
+            <a class="button secondary" href="#" aria-label="Harmony-Melodee coming soon">
+              Coming Soon
+            </a>
+          </article>
+
+          <article class="project-card small">
+            
+            <span class="status">In Development</span>
+            <h3>Project Sphynx</h3>
+            <p>
+              A catastrophe of chaos and fun.
+            </p>
+            <a class="button secondary" href="#" aria-label="Harmony-Melodee coming soon">
+              Coming Soon
+            </a>
+          </article>
+
+          <article class="project-card small">
+            <span class="status">Prototype</span>
+            <h3>More worlds are coming.</h3>
+            <p>
+              Small experiments, prototypes, and original ideas are helping us
+              discover what Owl-Byte can become.
+            </p>
+            <a class="button secondary" href="#contact">Stay Tuned</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="philosophy" id="journal">
+      <div class="container philosophy-inner">
+        <div class="eyebrow">The Owl-Byte philosophy</div>
+
+        <blockquote>
+          We want to make things we're <span>proud to share.</span>
+        </blockquote>
+
+        <p>
+          Owl-Byte is built around a simple idea: creativity should come first.
+          We want to experiment, learn, build original worlds, and create
+          experiences that feel made by people who genuinely care about them.
+        </p>
+      </div>
+    </section>
+
+    <section class="future" id="contact">
+      <div class="pixel-field" aria-hidden="true">
+        <span class="pixel yellow medium diamond p1" style="--float-time:7.3s;"></span>
+        <span class="pixel cyan large plus p2" style="--float-time:9.5s;--float-delay:-3s;"></span>
+        <span class="pixel pink tiny p3" style="--float-time:6.5s;--float-delay:-2s;"></span>
+        <span class="pixel cream wide p4" style="--float-time:8.4s;--float-delay:-4s;"></span>
+        <span class="pixel cyan small" style="top:12%;left:28%;--float-time:7s;--float-delay:-1s;"></span>
+        <span class="pixel yellow tall" style="bottom:10%;right:8%;--float-time:10s;--float-delay:-6s;"></span>
+        <span class="pixel pink medium diamond" style="top:46%;right:3%;--float-time:8s;--float-delay:-3s;"></span>
+      </div>
+
+      <div class="container">
+        <div class="eyebrow">The journey begins here</div>
+        <h2>We can't wait to <span>explore new worlds.</span></h2>
+        <p>
+          Owl-Byte Studios is only just beginning. Follow along as we turn
+          sketches, prototypes, and ideas into something you can play.
+        </p>
+        <a class="button primary" href="mailto:connect@owlbytestudios.com">
+          Say Hello
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          OWL-BYTE <span>STUDIOS</span><br>
+          <small>Games • Stories • Worlds</small>
+        </div>
+
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="#games">Games</a>
+          <a href="#about">About</a>
+          <a href="#journal">Journal</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+
+      <div class="copyright">
+        © 2026 Owl-Byte Studios. All rights reserved. · Canada
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
